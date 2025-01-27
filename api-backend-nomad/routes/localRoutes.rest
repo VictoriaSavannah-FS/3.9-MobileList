@@ -1,0 +1,30 @@
+GET http://localhost:8000/api/v1/parks
+
+###
+
+GET http://localhost:3000/parks
+
+###
+
+POST  http://localhost:3000/api/v1/parks/
+Content-Type: application/json
+
+{
+  "name": "Yellowstone National Park",
+  "location": "Wyoming, USA",
+  "description": "Famous for geysers and wildlife."
+}
+###
+
+DELETE http://localhost:8000/api/v1/parks/678f13d300e5d09e8e3715ad
+
+###
+
+PATCH http://localhost:8000/api/v1/parks/678f10a400e5d09e8e37155b
+Content-Type: application/json
+
+{
+    "name": "Smoky Mountains National Park",
+    "location": "North Carolina and Tennessee",
+    "description":"Great Smoky Mountains National Park straddles the border between North Carolina and Tennessee. The sprawling landscape encompasses lush forests and an abundance of wildflowers that bloom year-round. Streams, rivers and waterfalls appear along hiking routes that include a segment of the Appalachian Trail. An observation tower tops Clingmans Dome, the highest peak, offering scenic views of the mist-covered mountains. "
+}
