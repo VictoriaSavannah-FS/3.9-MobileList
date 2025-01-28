@@ -10,7 +10,9 @@ import {
   FlatList,
   Image,
   Alert,
+  ScrollView,
 } from "react-native";
+// scrollView helsp -genreic scrilling contaienr
 
 import styles from "../Appstyles";
 
@@ -36,7 +38,7 @@ export default function Parks({ navigation }) {
     // Trycath-block
     try {
       // Send PUT methd request to the API ----- upafte park : SPECIFIC PARKS
-      await fetch(`${API_URL}/${park._id}`, {
+      const response = await fetch(`${API_URL}/${park._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -46,6 +48,25 @@ export default function Parks({ navigation }) {
         }),
       });
 
+      // Update Prk list by fetching data--- refernce from 2.9
+      // setParks((prevParks) =>
+      //   prevParks.map((park) =>
+      //     park._id === id ? { ...park, name, location, description } : park
+      //   )
+      // );
+      // UPDATE UI / data w/ Edits
+      setParks((prevParks) =>
+        prevPark.map((park) =>
+          park._id === id
+            ? {
+                ...park,
+                name: newName,
+                location: newLocation,
+                description: newDescription,
+              }
+            : park
+        )
+      );
       // Alert.alert('Alert Title', 'My Alert Msg')
       Alert.alert("Succes", "Park Updated");
     } catch (error) {
@@ -57,9 +78,13 @@ export default function Parks({ navigation }) {
 
   const deletePark = async (id) => {
     try {
-      await fetch(`${API_URL}/${id}`, {
+      const response = await fetch(`${API_URL}/${id}`, {
         method: "DELETE",
       });
+      // refernce from 2.9
+      // setParks((prevParks) => prevParks.filter((park) => park._id !== id));
+      // updte State - remove praks ------------
+      setParks((prevParks) => prevParks.filter((park) => park._id !== id));
       Alert.alert("Succes", "Park Deleted");
     } catch (error) {
       Alert.alert("Error", "Failed to Delete Park. Please try again...");
@@ -67,16 +92,20 @@ export default function Parks({ navigation }) {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={[styles.heading]}>Parks</Text>
-      <Image
+      <Text style={[styles.subheading]}>Parks</Text>
+      {/* <Image
         source={require("../imgs/mountain-2.jpg")}
         style={{ width: "100%", height: "25%" }}
         resizeMode="cover"
-      />
+      /> */}
       {/* Parks Data */}
       <ListContainer onEdit={editPark} onDelete={deletePark} />
 
-      <Button title="Go Home" onPress={() => navigation.navigate("Home")} />
+      <Button
+        style={[styles.button, styles.buttonText]}
+        title="Go Home"
+        onPress={() => navigation.navigate("Home")}
+      />
       <Button title="Go To Form" onPress={() => navigation.navigate("Form")} />
     </SafeAreaView>
   );

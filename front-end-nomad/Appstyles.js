@@ -17,12 +17,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 12,
+    paddingTop: 4,
   },
   // Headings-=====
   heading: {
     fontSize: 48,
     fontWeight: "bold",
     color: theme.colors.whiteText,
+    textAlign: "center",
     // Add space aftr hdngs
     marginBottom: 16,
   },
@@ -41,34 +43,70 @@ const styles = StyleSheet.create({
   // -whiteTxt
   button: {
     // Light blue
-    backgroundColor: theme.colors.blueLight1,
+    backgroundColor: theme.colors.buttonBackground,
     padding: 12,
     borderRadius: 8,
     marginTop: 10,
   },
   buttonText: {
-    color: theme.colors.whiteText,
+    color: theme.colors.buttonText,
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
   },
   // list Styles-----------PARKS PAGE -----------------
   listContainer: {
-    // Dark blue for list items
-    backgroundColor: theme.colors.blueDark1,
-    padding: 16,
+    width: "95%",
+    alignContent: "center",
+    alignSelf: "center",
+
+    backgroundColor: theme.colors.blueDark2,
+
+    padding: 25,
     borderRadius: 8,
     marginBottom: 16,
+    // contaienr - shadow styles--
+    shadowColor: theme.colors.blue,
+    shadowOpacity: 0.2,
+    shadowRadius: 50,
+    shadowOffset: { width: 34, height: 2 },
   },
   listTitle: {
     fontSize: 20,
     fontWeight: "bold",
     color: theme.colors.whiteText,
+    textAlign: "center",
   },
   // ligh/blue
-  listCaption: {
+  listCaption1: {
+    fontSize: 16,
+    padding: 12,
+    color: theme.colors.blueLight1,
+    textAlign: "left",
+    alignItems: "center",
+  },
+  listCaption2: {
     fontSize: 16,
     color: theme.colors.blueLight2,
+    textAlign: "center",
+    alignItems: "center",
+  },
+  // FORM styles --------
+  inputForm: {
+    // txt
+    color: "olive",
+    fontSize: 16,
+    placeholderTextColor: "#FFA500",
+    // wdth--
+    width: "90%",
+    backgroundColor: "transparent",
+    // borders
+    borderWidth: 2,
+    borderColor: "olive",
+    borderRadius: 8,
+    // bx-mdl
+    padding: 12,
+    marginBottom: 12,
   },
 });
 
@@ -83,3 +121,9 @@ export default styles;
 //   alignItems: "center",
 //   justifyContent: "center",
 // },
+/* to-do
+- bckgrnd - list container 
+>input text /form 
+>shadow on Parks list??
+
+*/

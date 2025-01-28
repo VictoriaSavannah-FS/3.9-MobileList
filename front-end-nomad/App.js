@@ -9,8 +9,8 @@ import {
   Button,
   Platform,
 } from "react-native";
-import * as Network from "expo-network";
-
+// import * as Network from "expo-network";
+import theme from "./theme.js";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -42,7 +42,7 @@ function HomeScreen({ navigation }) {
       </Heading> */}
       <Image
         source={require("./imgs/mountain-1.jpg")}
-        style={{ width: "100%", height: "40%" }}
+        style={{ width: "100%", height: "40%", padding: 12, borderRadius: 4 }}
         resizeMode="cover"
       />
       <Text>
@@ -54,23 +54,18 @@ function HomeScreen({ navigation }) {
         </Heading>
       </Text>
       <Button
-        style={styles.button}
         title="Go To Parks"
         onPress={() => navigation.navigate("Parks")}
       />
-      <Button
-        style={styles.button}
-        title="Go To Form"
-        onPress={() => navigation.navigate("Form")}
-      />
+      <Button title="Go To Form" onPress={() => navigation.navigate("Form")} />
 
-      <Switch
+      {/* <Switch
         trackColor={{ false: "#767577", true: "#81b0ff" }}
         thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
         ios_backgroundColor="#3e3e3e"
         onValueChange={toggleSwitch}
         value={isEnabled}
-      />
+      /> */}
       <StatusBar style="auto" />
     </SafeAreaView>
   );
@@ -81,8 +76,21 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      {/* <Stack.Navigator style={styles.container}> */}
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: theme.colors.blueDark2, // Dark header background
+          },
+          headerTintColor: theme.colors.whiteText, // White text for header
+          headerTitleStyle: {
+            fontWeight: "bold",
+            fontSize: 20,
+          },
+        }}
+      >
         <Stack.Screen
+          style={styles.container}
           name="Home"
           component={HomeScreen}
           options={{ title: "NOMAD" }}
