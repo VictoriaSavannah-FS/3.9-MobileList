@@ -14,13 +14,18 @@ import * as Network from "expo-network";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import Details from "./Details.js";
-import Categories from "./Categories.js";
+import Form from "./pages/Form.js";
+import Parks from "./pages/Parks.js";
 
 import Heading from "./components/Heading.js";
-import ListContainer from "./components/ListContainer.js";
+// import ListContainer from "./components/ListContainer.js";
 
 import styles from "./Appstyles.js";
+// need to import Image from react-naotve lol!
+import { Image } from "react-native";
+
+// imgs
+// import HomeImg from "./imgs/mountain-1.jpg";
 
 function HomeScreen({ navigation }) {
   //set useState
@@ -29,28 +34,36 @@ function HomeScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={[styles.Heading, styles.largeHeading]}>NOMAD| HOME</Text>
-      <Heading>Welcome NOMAD</Heading>
-      {Platform.OS === "ios" ? (
-        <Text
-          style={[styles.mediumHeading, styles.italicFont, styles.headingColor]}
-        >
-          I am IOS
-        </Text>
-      ) : (
-        <Text style={[styles.mediumHeading, styles.italicFont]}>
-          I am NOT on IOS
-        </Text>
-      )}
+      <Text style={[styles.heading]}>HOME </Text>
+      {/* <Heading>
+        Check out these awesome state parks from around the world and start
+        planning your next trip. Whether it's epic hikes or just soaking up the
+        views, there's a park out there calling your name!
+      </Heading> */}
+      <Image
+        source={require("./imgs/mountain-1.jpg")}
+        style={{ width: "100%", height: "40%" }}
+        resizeMode="cover"
+      />
+      <Text>
+        {" "}
+        <Heading style={styles.subheading}>
+          Check out these awesome state parks from around the world and start
+          planning your next trip. Whether it's epic hikes or just soaking up
+          the views, there's a park out there calling your name!
+        </Heading>
+      </Text>
       <Button
-        title="Go To Details"
-        onPress={() => navigation.navigate("Details")}
+        style={styles.button}
+        title="Go To Parks"
+        onPress={() => navigation.navigate("Parks")}
       />
       <Button
-        title="Go To Categories"
-        onPress={() => navigation.navigate("Categories")}
+        style={styles.button}
+        title="Go To Form"
+        onPress={() => navigation.navigate("Form")}
       />
-      <ListContainer />
+
       <Switch
         trackColor={{ false: "#767577", true: "#81b0ff" }}
         thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
@@ -72,10 +85,10 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ title: "WANDER" }}
+          options={{ title: "NOMAD" }}
         />
-        <Stack.Screen name="Details" component={Details} />
-        <Stack.Screen name="Categories" component={Categories} />
+        <Stack.Screen name="Form" component={Form} />
+        <Stack.Screen name="Parks" component={Parks} />
       </Stack.Navigator>
     </NavigationContainer>
   );
