@@ -3,6 +3,18 @@ import { useState, useEffect } from "react";
 import { StyleSheet, FlatList, View, Text, Button, Alert } from "react-native";
 import ListItem from "./ListItem.js";
 import styles from "../Appstyles.js";
+import Heading from "./Heading.js";
+import { ScrollView } from "react-native-gesture-handler";
+// scrollView helsp -genreic scrolling contaienr--hmm not sure. somwthign about it..
+// import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
+// export default function App() {
+//   return (
+//     <GestureHandlerRootView>
+//       <ActualApp />
+//     </GestureHandlerRootView>
+//   );
+// }
 
 export default function ListContainer({ onEdit, onDelete }) {
   //was missing my {} brackets!
@@ -39,10 +51,10 @@ export default function ListContainer({ onEdit, onDelete }) {
   //
   // RENDERINg - PARK PROPerties -------
   const renderPark = ({ item }) => (
-    <View style={styles.container}>
-      <Text>{item.name}</Text>
-      <Text>Location | {item.location}</Text>
-      <Text>Description | {item.description}</Text>
+    <View style={styles.listContainer}>
+      <Text style={styles.listTitle}>{item.name}</Text>
+      <Text style={styles.subheading}>Location | {item.location}</Text>
+      <Text style={styles.subheading}>Description | {item.description}</Text>
       {/*  <Button
         title="Go To Parks"
         onPress={() => navigation.navigate("Parks")}
@@ -54,10 +66,12 @@ export default function ListContainer({ onEdit, onDelete }) {
   );
 
   return (
+    // <ScrollView style={{ flex: 1 }}>
     <FlatList
       data={parks}
       renderItem={renderPark}
       keyExtractor={(item) => item._id}
     />
+    // </ScrollView>
   );
 }
