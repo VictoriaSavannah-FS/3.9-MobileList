@@ -1,43 +1,63 @@
-import { StyleSheet, FlatList, View } from 'react-native';
-import ListItem from "./ListItem.js"
+// import state
+import { useState, useEffect } from "react";
+import { StyleSheet, FlatList, View, Text, Button, Alert } from "react-native";
+import ListItem from "./ListItem.js";
+import styles from "../Appstyles.js";
 
+export default function ListContainer({ onEdit, onDelete }) {
+  //was missing my {} brackets!
+  // defien state hooks
+  const [parks, setParks] = useState([]); //empty arry to hold API
+  const [loading, setLoading] = useState(false); //loading status
+  const [error, setError] = useState(null); //for error hnlding
 
-export default function ListContainer() {
+  // reference API -https://api-2-9-e2cec0d79dfb.herokuapp.com/api/v1/parks
 
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'My notehr is AMAZING! Her name is Yolanda ',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Hola papi! Como ves? Que tal? Nada mal, verdad?',
-  },
-];
+  const API_URL = "https://api-2-9-e2cec0d79dfb.herokuapp.com/api/v1/parks";
 
-
-  const renderItem = ({ item }) => (
-    <ListItem>{item.title}</ListItem>   );
+  // fetch API data!1 ------------
+  useEffect(() => {
+    // fetch!
+    const fetchParks = async () => {
+      // load state - true @ start
+      setLoading(true);
+      // try/catch blcok
+      try {
+        const response = await fetch(API_URL);
+        const parks = await response.json(); //
+        // setData(parks); //update state w/ park info
+        setParks(parks);
+      } catch (error) {
+        setError("Error while fetching parks");
+      } finally {
+        setLoading(false); //stop loading
+      }
+    };
+    fetchParks();
+  }, []); //runs only on mount
+  //
+  //
+  // RENDERINg - PARK PROPerties -------
+  const renderPark = ({ item }) => (
+    <View style={styles.container}>
+      <Text>{item.name}</Text>
+      <Text>Location | {item.location}</Text>
+      <Text>Description | {item.description}</Text>
+      {/*  <Button
+        title="Go To Parks"
+        onPress={() => navigation.navigate("Parks")}
+      /> */}
+      {/* <Button title="Edit" onPress={() => onEdit(park)} /> */}
+      <Button title="Edit" onPress={() => onEdit(item)} />
+      <Button title="Delete" onPress={() => onDelete(item._id)} />
+    </View>
+  );
 
   return (
     <FlatList
-        data={DATA}
-        renderItem={renderItem}
-        keyExtractor= {item => item.id}
-          />
+      data={parks}
+      renderItem={renderPark}
+      keyExtractor={(item) => item._id}
+    />
   );
 }
-
-//const styles = StyleSheet.create({
-  //container: {
-    //flex: 1,
-    //backgroundColor: '#fff',
-    //alignItems: 'center',
-  //  justifyContent: 'center',
- // },
-//});
-
