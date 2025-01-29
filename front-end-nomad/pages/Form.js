@@ -90,13 +90,24 @@ export default function Form({ navigation }) {
         onChangeText={setDescription} ///updates sate @ top
       />
       {/* handleSubmit btn */}
-      <Button title="Submit Park" onPress={handleSubmit} />
+      <Button
+        style={[styles.button, styles.buttonText]}
+        title="Submit Park"
+        onPress={handleSubmit}
+        // style={[styles.button, styles.buttonText]}
+      />
 
       <Button
         title="Go To Parks"
         onPress={() => navigation.navigate("Parks")}
+        style={[styles.button, styles.buttonText]}
       />
-      <Button title="Go To Form" onPress={() => navigation.navigate("Form")} />
+      <Button
+        title="Go Home"
+        onPress={() => navigation.navigate("Home")}
+        style={[styles.button, styles.buttonText]}
+      />
+      {/* <Button title="Go To Form" onPress={() => navigation.navigate("Form")} /> */}
 
       <StatusBar style="auto" />
     </SafeAreaView>
