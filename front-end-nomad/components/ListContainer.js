@@ -15,40 +15,63 @@ import { ScrollView } from "react-native-gesture-handler";
 //     </GestureHandlerRootView>
 //   );
 // }
+// APi base ----
+// const API_BASE =
+//   process.env.NODE_ENV === "development"
+// ? "http://localhost:8000/api/v1"
+//     : "https://api-2-9-e2cec0d79dfb.herokuapp.com/api/v1";
+
+// const API_URL = `${API_BASE}/parks`;
+// //
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const API_URL = "https://api-2-9-e2cec0d79dfb.herokuapp.com/api/v1/parks";
 
 export default function ListContainer({ onEdit, onDelete }) {
+  // APi base ----
+  // const API_BASE =
+  //   process.env.NODE_ENV === "development"
+  //     ? "http://localhost:8000/api/v1"
+  //     : "https://api-2-9-e2cec0d79dfb.herokuapp.com/api/v1";
+
+  // const API_URL = `${API_BASE}/parks`;
+
   //was missing my {} brackets!
-  // defien state hooks
+  // defien state hooks -=-------------
   const [parks, setParks] = useState([]); //empty arry to hold API
   const [loading, setLoading] = useState(false); //loading status
   const [error, setError] = useState(null); //for error hnlding
 
-  // reference API -https://api-2-9-e2cec0d79dfb.herokuapp.com/api/v1/parks
-
-  const API_URL = "https://api-2-9-e2cec0d79dfb.herokuapp.com/api/v1/parks";
-
   // fetch API data!1 ------------
+
   useEffect(() => {
-    // fetch!
     const fetchParks = async () => {
-      // load state - true @ start
-      setLoading(true);
-      // try/catch blcok
+      // fetch!
       try {
-        const response = await fetch(API_URL);
-        const parks = await response.json(); //
+        console.log("Fetching parks from:", API_URL);
+
+        //Token from AsyncStorage -----
+        const user = await AsyncStorage.getItem("user"); // search ysuer
+        const parsedUser = user ? JSON.parse(user) : null; // parse user / if not nulls
+        //chekc header adn grab token - if not --> empty object
+        const headers = parsedUser
+          ? { Authorization: `Bearer ${parsedUser.accessToken}` }
+          : {};
+        // fetch headrse auth from backend
+        const response = await fetch(API_URL, { headers });
+
+        const parks = await response.json();
+        console.log("Parks API Response:", parks);
         // setData(parks); //update state w/ park info
         setParks(parks);
       } catch (error) {
-        setError("Error while fetching parks");
-      } finally {
-        setLoading(false); //stop loading
+        console.log("Error fetching parks:", error);
+        setError("Error fetching parks--> check API.");
       }
     };
     fetchParks();
   }, []); //runs only on mount
-  //
-  //
+
   // RENDERINg - PARK PROPerties -------
   const renderPark = ({ item }) => (
     <View style={styles.listContainer}>
