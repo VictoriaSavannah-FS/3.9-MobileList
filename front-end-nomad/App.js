@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
   SafeAreaView,
@@ -14,18 +14,20 @@ import theme from "./theme.js";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import AuthService from "./services/auth.services.js";
+
 import Form from "./pages/Form.js";
 import Parks from "./pages/Parks.js";
+// new pages
+import Login from "./pages/Login.js";
+import Signup from "./pages/Signup.js";
 
 import Heading from "./components/Heading.js";
 // import ListContainer from "./components/ListContainer.js";
-
 import styles from "./Appstyles.js";
-// need to import Image from react-naotve lol!
-import { Image } from "react-native";
+import { Image } from "react-native"; // need to import Image from react-naotve lol!
 
-// imgs
-// import HomeImg from "./imgs/mountain-1.jpg";
+// img -- import HomeImg from "./imgs/mountain-1.jpg";
 
 function HomeScreen({ navigation }) {
   //set useState
@@ -53,6 +55,8 @@ function HomeScreen({ navigation }) {
           the views, there's a park out there calling your name!
         </Heading>
       </Text>
+      <Button title="Login" onPress={() => navigation.navigate("Login")} />
+      <Button title="Sign Up" onPress={() => navigation.navigate("Signup")} />
       <Button
         title="Go To Parks"
         onPress={() => navigation.navigate("Parks")}
@@ -74,6 +78,27 @@ function HomeScreen({ navigation }) {
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  // create a service thta eaches and checks if were signed in - if so, get token--> setup Hook
+
+  const [currentUser, setCurrentUser] = useState(false);
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = AuthService.getCurrentUser(); //if resceives user - set to CurentUser
+      // logic
+      if (user) {
+        //set state() +chaneg UI to that...
+        setCurrentUser(user);
+      }
+    };
+    fetchUser();
+  }, []); //only on mount
+
+  //LOG OUT fucnction
+
+  const logOut = () => {
+    // all interactive with localStorage and backedn
+    AuthService.logout();
+  };
   return (
     <NavigationContainer>
       {/* <Stack.Navigator style={styles.container}> */}
@@ -95,6 +120,8 @@ export default function App() {
           component={HomeScreen}
           options={{ title: "NOMAD" }}
         />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="Form" component={Form} />
         <Stack.Screen name="Parks" component={Parks} />
       </Stack.Navigator>
