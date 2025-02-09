@@ -11,9 +11,10 @@ import {
   Image,
   Alert,
   ScrollView,
+  Modal,
 } from "react-native";
 // scrollView helsp -genreic scrilling contaienr
-
+// The Modal component is a basic way to present content above an enclosing view.
 import styles from "../Appstyles";
 
 // import Lsit component
@@ -27,6 +28,8 @@ export default function Parks({ navigation }) {
   const editPark = async (park) => {
     // Prompt user for new details -----
     const newName = prompt("Enter new name:", park.name);
+    // The Modal component is a basic way to present content above an enclosing view.
+    const [modalVisible, setModalVisible] = useState(false);
     const newLocation = prompt("Enter new location:", park.location);
     const newDescription = prompt("Enter new description:", park.description);
 
@@ -55,16 +58,16 @@ export default function Parks({ navigation }) {
       //   )
       // );
       // UPDATE UI / data w/ Edits
-      setParks((prevParks) =>
-        prevPark.map((park) =>
-          park._id === id
+      setPark((prevParks) =>
+        prevPark.map((p) =>
+          p._id === park._id
             ? {
-                ...park,
+                ...p,
                 name: newName,
                 location: newLocation,
                 description: newDescription,
               }
-            : park
+            : p
         )
       );
       // Alert.alert('Alert Title', 'My Alert Msg')
@@ -81,11 +84,16 @@ export default function Parks({ navigation }) {
       const response = await fetch(`${API_URL}/${id}`, {
         method: "DELETE",
       });
-      // refernce from 2.9
-      // setParks((prevParks) => prevParks.filter((park) => park._id !== id));
-      // updte State - remove praks ------------
-      setParks((prevParks) => prevParks.filter((park) => park._id !== id));
-      Alert.alert("Succes", "Park Deleted");
+      // i forgot the conditonals!
+      if (response.ok) {
+        // refernce from 2.9
+        // setParks((prevParks) => prevParks.filter((park) => park._id !== id));
+        // updte State - remove praks ------------
+        setParks((prevParks) => prevParks.filter((park) => park._id !== id));
+        Alert.alert("Succes", "Park Deleted");
+      } else {
+        Alert.alert("Error", "Failed to Delete Park. Please try again...");
+      }
     } catch (error) {
       Alert.alert("Error", "Failed to Delete Park. Please try again...");
     }

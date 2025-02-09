@@ -77,7 +77,13 @@ export default function ListContainer({ onEdit, onDelete }) {
     <View style={styles.listContainer}>
       <Text style={styles.listTitle}>{item.name}</Text>
       <Text style={styles.subheading}>Location | {item.location}</Text>
-      <Text style={styles.subheading}>Description | {item.description}</Text>
+      {/* added a edfult description in case none is provided */}
+      <Text style={styles.subheading}>
+        Description |{" "}
+        {item.description
+          ? item.description
+          : "No description available or provided. Looks like this one's going on your bucketlist! Guess you're going to have to travel here and experience this wonder of the world for yourself."}
+      </Text>
       {/*  <Button
         title="Go To Parks"
         onPress={() => navigation.navigate("Parks")}
